@@ -5,39 +5,40 @@
  */
 import wollok.game.*
 
-object azul {}
-object rojo {}
-object negro {}
-object blanco {}
-object verde {}
-object beige {}
+object azul { method image() { return "autitoAzul.png" } }
+object rojo { method image() { return "autitoRojo2.png" } }
+object negro { method image() {/*Sin imagen aún */} }
+object blanco { method image() {/*Sin imagen aún */} }
+object verde { method image() { return "autitoVerde.png" } }
+object beige { method image() {/*Sin imagen aún */} }
 
-object norte {}
-object sur {}
-object oeste {}
-object este {}
+object norte { method direc() { return self } }
+object sur { method direc() { return self } }
+object oeste { method direc() { return self } }
+object este { method direc() { return self } }
 
 
 class Corsa {
 	var property color = null
 	var property position = game.origin()
+	var property image = "autitoRojo2.png"
 	const property posiciones = [self.position()]
-	const property filas = [0]
+	const property filas = [self.position().x()]
 	
 	method capacidad() { return 4 }
 	method velMax() { return 150 }
 	method peso() { return 1300 }
 	
 	method moverseHacia(direccion) {
-		if (direccion == norte) { 
+		if (direccion == norte.direc()) { 
 			self.position(self.position().up(1)) 
 			filas.add(filas.last()+1)
 		}
-		else if (direccion == sur) { 
+		else if (direccion == sur.direc()) { 
 			self.position(self.position().down(1))
 			filas.add(filas.last()-1)
 		}
-		else if (direccion == oeste) { 
+		else if (direccion == oeste.direc()) { 
 			self.position(self.position().left(1))
 		}
 		else { 
@@ -57,6 +58,10 @@ class Corsa {
 	method recorrioFilas(lista_de_numeros) { return
 		lista_de_numeros.asSet().difference(filas.asSet()) == #{}
 	}
+	
+//	method cambiaImagen(nuevaImagen) { 
+		
+//	}
 
 }
 
