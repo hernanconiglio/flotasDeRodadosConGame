@@ -1,0 +1,38 @@
+import wollok.game.*
+import rodados.*
+
+program corsasEnElGame {
+	// hacer las inicializaciones necesarias 
+	game.title("Metiendo un Corsa en el game")
+	game.width(12)
+	game.height(12)
+
+	const corsa1 = new Corsa()
+	const corsa2 = new Corsa()
+	const corsa3 = new Corsa()
+	var autoActivo = [corsa1]
+	corsa1.position(game.origin())
+	corsa2.position(game.at(1,0))
+	corsa3.position(game.at(2,0))
+	
+	corsa1.image(rojo.image())
+	corsa2.image(azul.image())
+	corsa3.image(verde.image())
+	
+	keyboard.num1().onPressDo( { autoActivo = [corsa1]})
+	keyboard.num2().onPressDo( { autoActivo = [corsa2]})
+	keyboard.num3().onPressDo( { autoActivo = [corsa3]})
+	
+	keyboard.up().onPressDo( {autoActivo.forEach( { a=>a.moverseHacia(norte)} ) } )	
+	keyboard.down().onPressDo( {autoActivo.forEach( { a=>a.moverseHacia(sur)} ) } )	
+	keyboard.left().onPressDo( {autoActivo.forEach( { a=>a.moverseHacia(oeste)} ) } )
+	keyboard.right().onPressDo( {autoActivo.forEach( { a=>a.moverseHacia(este)} ) } )
+	keyboard.r().onPressDo( {autoActivo.forEach( { a=>a.image(rojo.image()) } ) } )
+	keyboard.a().onPressDo( {autoActivo.forEach( { a=>a.image(azul.image()) } ) } )
+	keyboard.v().onPressDo( {autoActivo.forEach( { a=>a.image(verde.image()) } ) } )
+	keyboard.t().onPressDo( {autoActivo = [corsa1,corsa2,corsa3] } )
+	game.addVisual(corsa1)
+	game.addVisual(corsa2)
+	game.addVisual(corsa3)
+	game.start()
+}
