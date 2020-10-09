@@ -1,0 +1,26 @@
+import rodados.*
+import dependencias.*
+import pedidos.*
+
+test "Test Etapa 1" {
+	
+	const cachito = new Corsa(color=rojo)
+	const pedido1 = new Pedido(cantPasajeros=4,distancia=960,tiempoMax=8)
+	pedido1.coloresIncompat(#{azul,negro})
+	assert.that(pedido1.satisfacePedido(cachito))
+	
+	pedido1.coloresIncompat(#{azul,negro,rojo})
+	assert.notThat(pedido1.satisfacePedido(cachito))
+	
+	pedido1.coloresIncompat(#{azul,negro})
+	pedido1.cantPasajeros(6)
+	assert.notThat(pedido1.satisfacePedido(cachito))
+	
+	pedido1.coloresIncompat(#{azul,negro})
+	pedido1.cantPasajeros(4)
+	pedido1.acelerar()
+	pedido1.acelerar()
+	assert.notThat(pedido1.satisfacePedido(cachito))
+	
+	
+}
