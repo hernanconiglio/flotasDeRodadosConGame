@@ -22,8 +22,9 @@ class Corsa {
 	var property color = null
 	var property position = game.origin()
 	var property image = "autitoRojo2.png"
+	var property resistencia = 3
 	const property posiciones = [self.position()]
-	const property filas = [self.position().x()]
+	const property tipoObjeto = "automovil"
 	
 	method capacidad() { return 4 }
 	method velMax() { return 150 }
@@ -32,11 +33,9 @@ class Corsa {
 	method moverseHacia(direccion) {
 		if (direccion == norte.direc()) { 
 			self.position(self.position().up(1)) 
-			filas.add(filas.last()+1)
 		}
 		else if (direccion == sur.direc()) { 
 			self.position(self.position().down(1))
-			filas.add(filas.last()-1)
 		}
 		else if (direccion == oeste.direc()) { 
 			self.position(self.position().left(1))
@@ -48,21 +47,30 @@ class Corsa {
 	}
 	
 	method pasoPor(posicion) { return
-		posiciones.contains( posicion )
+		posiciones.contains(posicion)
 	}
 	
 	method pasoPorFila(numero) { return
-		filas.contains(numero)
+		posiciones.map( { p=>p.x() } ).contains(numero)
 	}
 	
 	method recorrioFilas(lista_de_numeros) { return
-		lista_de_numeros.asSet().difference(filas.asSet()) == #{}
+		lista_de_numeros.asSet().difference(posiciones.map( { p=>p.x() } ) ).asSet() == #{} 
 	}
 	
-//	method cambiaImagen(nuevaImagen) { 
-		
-//	}
+	method chocarPared(pared) { 
+		if (pared.tipoObjeto() != "automovil") {
+			pared.choque()
+			if (pared.resistencia() != 0) {
+			self.position(self.posiciones().get(self.posiciones().size()-2))
+			posiciones.add(self.position())
+			}
+		}
 
+	}
+	
+	method choque() {}
+	
 }
 
 

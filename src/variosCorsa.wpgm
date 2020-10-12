@@ -1,5 +1,6 @@
 import wollok.game.*
 import rodados.*
+import paredes.*
 
 program corsasEnElGame {
 	// hacer las inicializaciones necesarias 
@@ -13,15 +14,25 @@ program corsasEnElGame {
 	var autoActivo = [corsa1]
 	corsa1.position(game.origin())
 	corsa2.position(game.at(1,0))
+	corsa2.posiciones().add(corsa2.position())
 	corsa3.position(game.at(2,0))
+	corsa3.posiciones().add(corsa3.position())
 	
 	corsa1.image(rojo.image())
 	corsa2.image(azul.image())
 	corsa3.image(verde.image())
 	
-	keyboard.num1().onPressDo( { autoActivo = [corsa1]})
-	keyboard.num2().onPressDo( { autoActivo = [corsa2]})
-	keyboard.num3().onPressDo( { autoActivo = [corsa3]})
+	const pared1 = new Pared()
+	const pared2 = new Pared()
+	const pared3 = new Pared()
+	pared1.position(game.at(0,8))
+	pared2.position(game.at(4,9))
+	pared3.position(game.at(7,10))
+	
+	
+	keyboard.num1().onPressDo( { autoActivo = [corsa1] } )
+	keyboard.num2().onPressDo( { autoActivo = [corsa2] } )
+	keyboard.num3().onPressDo( { autoActivo = [corsa3] } )
 	
 	keyboard.up().onPressDo( {autoActivo.forEach( { a=>a.moverseHacia(norte)} ) } )	
 	keyboard.down().onPressDo( {autoActivo.forEach( { a=>a.moverseHacia(sur)} ) } )	
@@ -34,5 +45,23 @@ program corsasEnElGame {
 	game.addVisual(corsa1)
 	game.addVisual(corsa2)
 	game.addVisual(corsa3)
+	game.addVisual(pared1)
+	game.addVisual(pared2)	
+	game.addVisual(pared3)	
+	
+	game.whenCollideDo(corsa1, { pared =>  
+			corsa1.chocarPared(pared)
+			if (pared.resistencia() == 0) game.removeVisual(pared)	
+	} )	
+	game.whenCollideDo(corsa2, { pared =>  
+			corsa2.chocarPared(pared)
+			if (pared.resistencia() == 0) game.removeVisual(pared)	
+	} )	
+	
+	game.whenCollideDo(corsa3, { pared =>  
+			corsa3.chocarPared(pared)
+			if (pared.resistencia() == 0) game.removeVisual(pared)	
+	} )	
+	
 	game.start()
 }
